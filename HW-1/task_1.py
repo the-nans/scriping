@@ -22,6 +22,14 @@ def get_repo_list(user:'Anonymous', token:''):
         dict_r.append(f'Response code: {r.status_code}')
     return dict_r
 
+def dump_repo_list(repo_list):
+    try:
+        with open('hw1.json', 'w') as f:
+            json.dump(repo_list, f, indent=2)
+            return 0
+    except BaseException as e:
+        print(e)
+        return e
 
 if __name__ == '__main__':
     load_dotenv()
@@ -29,7 +37,9 @@ if __name__ == '__main__':
     u = os.environ.get('GIT-USER')
     t = os.environ.get('GIT-TOKEN')
 
-    print(get_repo_list(u, t))
-
+    if dump_repo_list(get_repo_list(u, t)) == 0:
+        print('Data dumped to file')
+    else:
+        print('Data dump failed')
 
 
